@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>勝浦東急ゴルフコース | Green Master</title>
+    <meta name="description" content="勝浦東急ゴルフコースのピンポジション管理システム。全18ホールのピン位置をスマートに管理。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="data:text/css;base64,QG1lZGlhIHByaW50IHsKICBib2R5IHsKICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlICFpbXBvcnRhbnQ7CiAgICBwYWRkaW5nOiAwICFpbXBvcnRhbnQ7CiAgfQoKICAucHJpbnQtb25seSB7CiAgICBkaXNwbGF5OiBibG9jayAhaW1wb3J0YW50OwogICAgd2lkdGg6IDEwMCU7CiAgfQoKICAucHJpbnQtcGFnZSB7CiAgICBwYWdlLWJyZWFrLWFmdGVyOiBhbHdheXM7CiAgICBwYWRkaW5nOiAyMG1tOwogIH0KCiAgLnByaW50LWhlYWRlciB7CiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICBtYXJnaW4tYm90dG9tOiAyMHB4OwogICAgYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkICMwMDA7CiAgICBwYWRkaW5nLWJvdHRvbTogMTBweDsKICB9CgogIC5wcmludC1oZWFkZXIgaDEgewogICAgZm9udC1zaXplOiAyNHB0OwogICAgbWFyZ2luOiAwOwogIH0KCiAgLnByaW50LWhlYWRlciBwIHsKICAgIGZvbnQtc2l6ZTogMTRwdDsKICAgIG1hcmdpbjogNXB4IDAgMDsKICB9CgogIC5waW4tdGFibGUgewogICAgd2lkdGg6IDEwMCU7CiAgICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwogICAgbWFyZ2luLXRvcDogMjBweDsKICB9CgogIC5waW4tdGFibGUgdGgsIC5waW4tdGFibGUgdGQgewogICAgYm9yZGVyOiAxcHggc29saWQgIzAwMDsKICAgIHBhZGRpbmc6IDEycHg7CiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICBmb250LXNpemU6IDEycHQ7CiAgfQoKICAucGluLXRhYmxlIHRoIHsKICAgIGJhY2tncm91bmQtY29sb3I6ICNmMGYwZjAgIWltcG9ydGFudDsKICAgIC13ZWJraXQtcHJpbnQtY29sb3ItYWRqdXN0OiBleGFjdDsKICB9CgogIC5waW4tdGFibGUgLmhvbGUtY29sIHsgd2lkdGg6IDEwJTsgfQogIC5waW4tdGFibGUgLnBhci1jb2wgeyB3aWR0aDogMTAlOyB9CiAgLnBpbi10YWJsZSAueWFyZC1jb2wgeyB3aWR0aDogMTUlOyB9CiAgLnBpbi10YWJsZSAucG9zLWNvbCB7IHdpZHRoOiAyNSU7IH0KICAucGluLXRhYmxlIC5tZW1vLWNvbCB7IHdpZHRoOiA0MCU7IH0KCiAgLnByaW50LWZvb3RlciB7CiAgICBtYXJnaW4tdG9wOiAzMHB4OwogICAgZm9udC1zaXplOiAxMHB0OwogICAgdGV4dC1hbGlnbjogcmlnaHQ7CiAgfQp9Cg==" media="print">
+    <script type="module" crossorigin src="./assets/index-COBNESpo.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-p_EvTHmb.css">
+  </head>
+  <body>
+    <div id="app" class="no-print">
+      <!-- サイドバー -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <i data-lucide="palmtree"></i>
+            <div class="logo-text">
+              <span class="brand-sub">勝浦東急GC</span>
+              <span class="brand-main">Green Master</span>
+            </div>
+          </div>
+        </div>
+        <nav class="hole-nav">
+          <ul id="hole-list">
+            <!-- 18ホールのリストがここに生成されます -->
+          </ul>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="print-out" class="btn-secondary full-width">
+            <i data-lucide="printer"></i> OUT (1-9) 印刷
+          </button>
+          <button id="print-in" class="btn-secondary full-width" style="margin-top: 0.5rem;">
+            <i data-lucide="printer"></i> IN (10-18) 印刷
+          </button>
+          <div class="data-mgmt" style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+            <button id="export-data" class="btn-outline full-width" style="font-size: 0.7rem; padding: 0.4rem;">
+              <i data-lucide="download" style="width: 12px; height: 12px;"></i> データ保存
+            </button>
+            <button id="import-data" class="btn-outline full-width" style="font-size: 0.7rem; padding: 0.4rem;">
+              <i data-lucide="upload" style="width: 12px; height: 12px;"></i> 復元
+            </button>
+            <input type="file" id="import-file" style="display: none;" accept=".json">
+          </div>
+        </div>
+      </aside>
+
+      <!-- メインコンテンツ -->
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="current-hole-info">
+            <h1 id="current-hole-title">第1ホール</h1>
+            <span id="current-hole-par" class="badge">PAR 4</span>
+            <div class="green-select-group">
+              <button id="select-green-a" class="btn-green-tab active">Aグリーン</button>
+              <button id="select-green-b" class="btn-green-tab">Bグリーン</button>
+            </div>
+            <span id="current-hole-yard" class="badge badge-outline">343 YDS</span>
+          </div>
+          <div class="user-actions">
+            <div id="current-date-display" class="date-display">2024年4月25日</div>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <!-- グリーンマップ -->
+          <section class="card map-card">
+            <div class="card-header">
+              <h2><i data-lucide="map"></i> グリーンマップ</h2>
+              <div class="map-controls">
+                <button id="edit-green" title="グリーン形状編集"><i data-lucide="edit-3"></i> 編集</button>
+                <button id="reset-view" title="表示リセット"><i data-lucide="maximize"></i></button>
+              </div>
+            </div>
+            <div class="map-container" id="map-container">
+              <!-- SVG グリーンマップがここに描画されます -->
+            </div>
+            <div class="hole-description" id="hole-desc">
+              <!-- ホール解説 -->
+            </div>
+          </section>
+
+          <!-- 操作・履歴側パネル -->
+          <div class="side-panels">
+            <!-- ピン生成パネル -->
+            <section class="card control-card">
+              <div class="card-header">
+                <h2><i data-lucide="settings"></i> ピンポジション生成</h2>
+              </div>
+              <div class="control-body">
+                <div class="constraints-info">
+                  <p><i data-lucide="info"></i> 制約条件:</p>
+                  <ul>
+                    <li>エッジから4ヤード以上</li>
+                    <li>前日位置から5m以上</li>
+                  </ul>
+                </div>
+                <div class="control-actions" style="display: flex; gap: 0.5rem;">
+                  <button id="generate-pin" class="btn-primary" style="flex: 1;">
+                    <i data-lucide="refresh-cw"></i> 自動生成
+                  </button>
+                  <button id="reset-pin" class="btn-secondary" title="ピンを削除">
+                    <i data-lucide="x-circle"></i> クリア
+                  </button>
+                </div>
+                <div id="pin-coords" class="coords-display">
+                  <div class="coord-item">
+                    <span class="coord-label">手前/奥(+)</span>
+                    <span id="val-y" class="coord-value">--</span>
+                  </div>
+                  <div class="coord-item">
+                    <span class="coord-label">左/右(+)</span>
+                    <span id="val-x" class="coord-value">--</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 履歴カレンダー -->
+            <section class="card history-card">
+              <div class="card-header">
+                <h2><i data-lucide="calendar"></i> 配置履歴</h2>
+                <button id="clear-history" class="btn-icon" title="履歴をすべて削除"><i data-lucide="trash-2"></i></button>
+              </div>
+              <div id="calendar-container">
+                <!-- カレンダーがここに描画されます -->
+              </div>
+              <div class="history-list" id="history-items">
+                <!-- 選択した日のデータが表示されます -->
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- 印刷用隠しエリア -->
+    <div id="print-area" class="print-only"></div>
+
+    <!-- 編集用モーダル -->
+    <div id="editor-modal" class="modal no-print">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>グリーン形状編集</h3>
+          <button id="close-editor" class="btn-icon"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body">
+          <p class="help-text">点をドラッグして形状を変更してください。</p>
+          <div id="editor-container" class="editor-svg-container"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="save-green" class="btn-primary">保存する</button>
+          <button id="reset-green" class="btn-secondary">初期化</button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
