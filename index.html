@@ -12,6 +12,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="./src/style.css">
     <link rel="stylesheet" href="./src/print.css" media="print">
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#1e4d2b">
+    <link rel="apple-touch-icon" href="./pwa-512x512.png">
   </head>
   <body>
     <div id="app" class="no-print">
@@ -161,5 +165,14 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
   </body>
 </html>

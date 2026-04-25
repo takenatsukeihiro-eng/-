@@ -1,0 +1,17 @@
+{
+  "name": "Green Master | 勝浦東急GC",
+  "short_name": "Green Master",
+  "description": "勝浦東急ゴルフコースのピンポジション管理システム",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e4d2b",
+  "icons": [
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
