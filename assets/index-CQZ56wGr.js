@@ -27,36 +27,57 @@
       ${n}
       ${r}
     </svg>
-  `,q()}var K=!1;function q(){let e=document.getElementById(`green-svg`),t=document.getElementById(`green-poly`),n=document.getElementById(`pin-marker`),r=t=>{let n=t.clientX||t.touches&&t.touches[0].clientX,r=t.clientY||t.touches&&t.touches[0].clientY,i=e.getBoundingClientRect(),a=500/i.width;return{x:(n-i.left)*a,y:(r-i.top)*a}},i=e=>{let t=r(e);o(x.number,S,{greenType:C,position:t}),G(),W()};if(t.onclick=e=>{K||i(e)},n){let e=e=>{K=!0,e.stopPropagation()},t=e=>{K&&i(e)},r=()=>{K=!1};n.onmousedown=e,window.onmousemove=t,window.onmouseup=r,n.ontouchstart=e,window.ontouchmove=t,window.ontouchend=r}}function J(){let e=new Date,t=e.getFullYear(),n=e.getMonth(),r=new Date(t,n,1).getDay(),i=new Date(t,n+1,0).getDate(),a=`<div class="calendar-grid">`;[`日`,`月`,`火`,`水`,`木`,`金`,`土`].forEach(e=>a+=`<div class="calendar-header-day" style="font-size: 0.7rem; color: #6b7280; text-align: center;">${e}</div>`);for(let e=0;e<r;e++)a+=`<div></div>`;for(let e=1;e<=i;e++){let r=`${t}-${String(n+1).padStart(2,`0`)}-${String(e).padStart(2,`0`)}`;a+=`<div class="calendar-day ${r===S?`active`:``}" onclick="selectDate('${r}')">${e}</div>`}a+=`</div>`,L.innerHTML=a}window.selectDate=e=>{S=e,J(),G(),W()},M.onclick=()=>{let e=f(S),t=c(x.number,e),n=t&&t.greenType===C?t.position:null,r=y({...x,points:a(x,C)},n);r?(o(x.number,S,{greenType:C,position:r}),G(),W(),M.animate([{transform:`scale(1)`},{transform:`scale(1.05)`},{transform:`scale(1)`}],{duration:300})):alert(`制約条件を満たすピンポジションが見つかりませんでした。グリーンの形状を確認してください。`)},N.onclick=()=>{s(x.number,S),G(),W()},P.onclick=()=>{b(x,C,e=>{G()})};function Y(e){let t=e.map(e=>{let t=c(e.number,S);if(!t)return`<tr><td>${e.number}</td><td>${e.par}</td><td colspan="3">未設定</td></tr>`;let{greenType:n,position:r}=t,i=n===`A`?e.yardageA:e.yardageB,a=`手前/奥: ${Math.round(250-r.y)}, 左/右: ${Math.round(r.x-250)}`;return`
-      <tr>
-        <td>${e.number}</td>
-        <td>${e.par}</td>
-        <td>${n}</td>
-        <td>${i}</td>
-        <td>${a}</td>
-      </tr>
+  `,q()}var K=!1;function q(){let e=document.getElementById(`green-svg`),t=document.getElementById(`green-poly`),n=document.getElementById(`pin-marker`),r=t=>{let n=t.clientX||t.touches&&t.touches[0].clientX,r=t.clientY||t.touches&&t.touches[0].clientY,i=e.getBoundingClientRect(),a=500/i.width;return{x:(n-i.left)*a,y:(r-i.top)*a}},i=e=>{let t=r(e);o(x.number,S,{greenType:C,position:t}),G(),W()};if(t.onclick=e=>{K||i(e)},n){let e=e=>{K=!0,e.stopPropagation()},t=e=>{K&&i(e)},r=()=>{K=!1};n.onmousedown=e,window.onmousemove=t,window.onmouseup=r,n.ontouchstart=e,window.ontouchmove=t,window.ontouchend=r}}function J(){let e=new Date,t=e.getFullYear(),n=e.getMonth(),r=new Date(t,n,1).getDay(),i=new Date(t,n+1,0).getDate(),a=`<div class="calendar-grid">`;[`日`,`月`,`火`,`水`,`木`,`金`,`土`].forEach(e=>a+=`<div class="calendar-header-day" style="font-size: 0.7rem; color: #6b7280; text-align: center;">${e}</div>`);for(let e=0;e<r;e++)a+=`<div></div>`;for(let e=1;e<=i;e++){let r=`${t}-${String(n+1).padStart(2,`0`)}-${String(e).padStart(2,`0`)}`;a+=`<div class="calendar-day ${r===S?`active`:``}" onclick="selectDate('${r}')">${e}</div>`}a+=`</div>`,L.innerHTML=a}window.selectDate=e=>{S=e,J(),G(),W()},M.onclick=()=>{let e=f(S),t=c(x.number,e),n=t&&t.greenType===C?t.position:null,r=y({...x,points:a(x,C)},n);r?(o(x.number,S,{greenType:C,position:r}),G(),W(),M.animate([{transform:`scale(1)`},{transform:`scale(1.05)`},{transform:`scale(1)`}],{duration:300})):alert(`制約条件を満たすピンポジションが見つかりませんでした。グリーンの形状を確認してください。`)},N.onclick=()=>{s(x.number,S),G(),W()},P.onclick=()=>{b(x,C,e=>{G()})};function Y(e){let t=e.map(e=>{let t=c(e.number,S);if(!t)return`
+        <div class="print-hole-card empty">
+          <div class="hole-header">Hole ${e.number}</div>
+          <div class="no-data">未設定</div>
+        </div>
+      `;let{greenType:n,position:r}=t,i=a(e,n).map(e=>`${e.x},${e.y}`).join(` `),o=Math.round(250-r.y),s=Math.round(r.x-250),l=n===`A`?e.yardageA:e.yardageB;return`
+      <div class="print-hole-card">
+        <div class="hole-header">
+          <span class="hole-num">Hole ${e.number}</span>
+          <span class="hole-par">Par ${e.par}</span>
+          <span class="hole-green">${n}G</span>
+          <span class="hole-yard">${l}Y</span>
+        </div>
+        <div class="print-svg-container">
+          <svg viewBox="0 0 500 500">
+            <!-- グリーン形状 -->
+            <polygon points="${i}" fill="#f0fdf4" stroke="#064e3b" stroke-width="4" />
+            
+            <!-- センターライン (目安) -->
+            <line x1="250" y1="0" x2="250" y2="500" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="8,8" />
+            <line x1="0" y1="250" x2="500" y2="250" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="8,8" />
+            
+            <!-- ピンポジション -->
+            <g>
+              <line x1="${r.x}" y1="${r.y}" x2="${r.x}" y2="${r.y-80}" stroke="#000" stroke-width="3" />
+              <rect x="${r.x}" y="${r.y-80}" width="40" height="25" fill="#ef4444" />
+              <circle cx="${r.x}" cy="${r.y}" r="10" fill="#fff" stroke="#ef4444" stroke-width="4" />
+            </g>
+          </svg>
+        </div>
+        <div class="hole-coords">
+          <div class="coord-row">手前/奥: <span>${o>0?`+`+o:o}</span></div>
+          <div class="coord-row">左/右: <span>${s>0?`+`+s:s}</span></div>
+        </div>
+      </div>
     `}).join(``);B.innerHTML=`
     <div class="print-page">
       <div class="print-header">
-        <h1>ピンポジション表 (${e[0].number===1?`OUT`:`IN`})</h1>
-        <p>勝浦東急ゴルフコース - ${S.replace(/-/g,`/`)}</p>
+        <h1>Pin Position - ${e[0].number===1?`OUT (1-9)`:`IN (10-18)`}</h1>
+        <div class="print-meta">
+          <span>勝浦東急ゴルフコース</span>
+          <span class="print-date">${S.replace(/-/g,`/`)}</span>
+        </div>
       </div>
-      <table class="pin-table">
-        <thead>
-          <tr>
-            <th class="hole-col">Hole</th>
-            <th class="par-col">Par</th>
-            <th class="green-col">Green</th>
-            <th class="yard-col">Yard</th>
-            <th class="pos-col">Position</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${t}
-        </tbody>
-      </table>
+      
+      <div class="print-grid">
+        ${t}
+      </div>
+      
       <div class="print-footer">
-        Printed by Green Master
+        Generated by Green Master
       </div>
     </div>
   `,window.print()}R.onclick=()=>Y(e.slice(0,9)),z.onclick=()=>Y(e.slice(9,18)),document.getElementById(`clear-history`).onclick=()=>{confirm(`すべてのピンポジション履歴を削除してもよろしいですか？（この操作は取り消せません）`)&&(u(),G(),W(),alert(`履歴をすべて削除しました。`))},document.getElementById(`export-data`).onclick=()=>{let e={history:l(),greenPoints:i()},t=new Blob([JSON.stringify(e,null,2)],{type:`application/json`}),n=URL.createObjectURL(t),r=document.createElement(`a`);r.href=n,r.download=`green-master-data-${d()}.json`,r.click(),URL.revokeObjectURL(n)};var X=document.getElementById(`import-data`),Z=document.getElementById(`import-file`);X.onclick=()=>Z.click(),Z.onchange=e=>{let t=e.target.files[0];if(!t)return;let n=new FileReader;n.onload=e=>{try{let t=JSON.parse(e.target.result);t.history&&localStorage.setItem(`green_master_history`,JSON.stringify(t.history)),t.greenPoints&&localStorage.setItem(`green_master_points`,JSON.stringify(t.greenPoints)),alert(`データを復元しました。ページを更新します。`),window.location.reload()}catch{alert(`データの読み込みに失敗しました。ファイル形式を確認してください。`)}},n.readAsText(t)},V();
