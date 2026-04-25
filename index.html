@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>勝浦東急ゴルフコース | Green Master</title>
     <meta name="description" content="勝浦東急ゴルフコースのピンポジション管理システム。全18ホールのピン位置をスマートに管理。">
@@ -51,6 +51,9 @@
               <i data-lucide="upload" style="width: 12px; height: 12px;"></i> 復元
             </button>
             <input type="file" id="import-file" style="display: none;" accept=".json">
+          </div>
+          <div class="version-info" style="font-size: 0.6rem; color: #94a3b8; margin-top: 1rem; text-align: center;">
+            Version: 1.0.3 (Updated: 2026-04-25)
           </div>
         </div>
       </aside>
@@ -169,8 +172,30 @@
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registered', reg))
+            .then(reg => {
+              console.log('Service Worker registered');
+              
+              // アップデートのチェック
+              reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () => {
+                  if (installingWorker.state === 'installed') {
+                    if (navigator.serviceWorker.controller) {
+                      console.log('New content available, updating...');
+                    }
+                  }
+                };
+              };
+            })
             .catch(err => console.log('Service Worker registration failed', err));
+        });
+
+        // 新しいサービスワーカーが有効になったらページを自動リロード
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
         });
       }
     </script>
