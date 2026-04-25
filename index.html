@@ -11,6 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="data:text/css;base64,QG1lZGlhIHByaW50IHsKICBib2R5IHsKICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlICFpbXBvcnRhbnQ7CiAgICBwYWRkaW5nOiAwICFpbXBvcnRhbnQ7CiAgfQoKICAucHJpbnQtb25seSB7CiAgICBkaXNwbGF5OiBibG9jayAhaW1wb3J0YW50OwogICAgd2lkdGg6IDEwMCU7CiAgfQoKICAucHJpbnQtcGFnZSB7CiAgICBwYWdlLWJyZWFrLWFmdGVyOiBhbHdheXM7CiAgICBwYWRkaW5nOiAyMG1tOwogIH0KCiAgLnByaW50LWhlYWRlciB7CiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICBtYXJnaW4tYm90dG9tOiAyMHB4OwogICAgYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkICMwMDA7CiAgICBwYWRkaW5nLWJvdHRvbTogMTBweDsKICB9CgogIC5wcmludC1oZWFkZXIgaDEgewogICAgZm9udC1zaXplOiAyNHB0OwogICAgbWFyZ2luOiAwOwogIH0KCiAgLnByaW50LWhlYWRlciBwIHsKICAgIGZvbnQtc2l6ZTogMTRwdDsKICAgIG1hcmdpbjogNXB4IDAgMDsKICB9CgogIC5waW4tdGFibGUgewogICAgd2lkdGg6IDEwMCU7CiAgICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwogICAgbWFyZ2luLXRvcDogMjBweDsKICB9CgogIC5waW4tdGFibGUgdGgsIC5waW4tdGFibGUgdGQgewogICAgYm9yZGVyOiAxcHggc29saWQgIzAwMDsKICAgIHBhZGRpbmc6IDEycHg7CiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICBmb250LXNpemU6IDEycHQ7CiAgfQoKICAucGluLXRhYmxlIHRoIHsKICAgIGJhY2tncm91bmQtY29sb3I6ICNmMGYwZjAgIWltcG9ydGFudDsKICAgIC13ZWJraXQtcHJpbnQtY29sb3ItYWRqdXN0OiBleGFjdDsKICB9CgogIC5waW4tdGFibGUgLmhvbGUtY29sIHsgd2lkdGg6IDEwJTsgfQogIC5waW4tdGFibGUgLnBhci1jb2wgeyB3aWR0aDogMTAlOyB9CiAgLnBpbi10YWJsZSAueWFyZC1jb2wgeyB3aWR0aDogMTUlOyB9CiAgLnBpbi10YWJsZSAucG9zLWNvbCB7IHdpZHRoOiAyNSU7IH0KICAucGluLXRhYmxlIC5tZW1vLWNvbCB7IHdpZHRoOiA0MCU7IH0KCiAgLnByaW50LWZvb3RlciB7CiAgICBtYXJnaW4tdG9wOiAzMHB4OwogICAgZm9udC1zaXplOiAxMHB0OwogICAgdGV4dC1hbGlnbjogcmlnaHQ7CiAgfQp9Cg==" media="print">
+    <!-- PWA -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#1e4d2b">
+    <link rel="apple-touch-icon" href="./pwa-512x512.png">
     <script type="module" crossorigin src="./assets/index-COBNESpo.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-p_EvTHmb.css">
   </head>
@@ -161,5 +165,14 @@
       </div>
     </div>
 
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.log('Service Worker registration failed', err));
+        });
+      }
+    </script>
   </body>
 </html>
