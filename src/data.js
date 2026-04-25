@@ -1,3 +1,5 @@
+
+
 // 勝浦東急ゴルフコース ホールデータ (Regular Green A & B)
 export const HOLE_DATA = [
   { number: 1, par: 4, yardageA: 343, yardageB: 310, desc: "打ち下ろしのミドルホール。ティーショットはセンター狙い。右のクロスバンカーに気をつければパーの狙えるホール。" },
@@ -53,6 +55,8 @@ export function saveGreenPoints(holeNumber, greenType, points) {
   if (!allPoints[holeNumber]) allPoints[holeNumber] = {};
   allPoints[holeNumber][greenType] = points;
   localStorage.setItem(GREEN_POINTS_KEY, JSON.stringify(allPoints));
+  
+
 }
 
 // 全ホールのグリーン座標を取得
@@ -74,6 +78,8 @@ export function savePinPosition(holeNumber, date, data) {
   if (!history[date]) history[date] = {};
   history[date][holeNumber] = data; // { greenType, position }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  
+
 }
 
 export function deletePinPosition(holeNumber, date) {
@@ -109,4 +115,9 @@ export function getYesterdaysDate(currentDateStr) {
   const d = new Date(currentDateStr);
   d.setDate(d.getDate() - 1);
   return getFormattedDate(d);
+}
+
+// リアルタイム同期のスタブ（Firebase削除に伴い何もしない）
+export function startSync(onUpdate) {
+  // Local only
 }

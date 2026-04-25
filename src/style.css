@@ -50,6 +50,8 @@ h1, h2, h3, .brand-main {
 
 .sidebar-header {
   padding: 2rem 1.5rem;
+  background: linear-gradient(to bottom, #f0fdf4, transparent);
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .logo {
@@ -70,17 +72,19 @@ h1, h2, h3, .brand-main {
 }
 
 .brand-sub {
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  margin-bottom: -2px;
 }
 
 .brand-main {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
   line-height: 1;
+  color: var(--text);
 }
 
 .hole-nav {
@@ -144,12 +148,26 @@ h1, h2, h3, .brand-main {
 .current-hole-info {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-name-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
 }
 
 .current-hole-info h1 {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .badge {
@@ -596,7 +614,11 @@ h1, h2, h3, .brand-main {
   }
 
   .current-hole-info h1 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+  }
+
+  .course-name-badge {
+    font-size: 0.7rem;
   }
 
   .side-panels {
