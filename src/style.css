@@ -522,3 +522,86 @@ h1, h2, h3, .brand-main {
 .edit-handle:hover {
   fill: var(--primary-light);
 }
+
+/* レスポンシブ (スマホ対応) */
+@media screen and (max-width: 900px) {
+  #app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-header {
+    padding: 1rem;
+  }
+
+  .hole-nav {
+    max-height: 120px;
+    padding: 0.5rem;
+  }
+
+  .hole-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .hole-item {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .sidebar-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .sidebar-footer .btn-secondary,
+  .sidebar-footer .data-mgmt {
+    flex: 1;
+    margin-top: 0 !important;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .current-hole-info {
+    flex-wrap: wrap;
+  }
+
+  .current-hole-info h1 {
+    font-size: 1.5rem;
+  }
+
+  .side-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
