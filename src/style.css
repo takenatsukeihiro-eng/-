@@ -72,16 +72,16 @@ h1, h2, h3, .brand-main {
 }
 
 .brand-sub {
-  font-size: 0.85rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   color: var(--primary);
-  margin-bottom: -2px;
+  margin-bottom: 2px;
 }
 
 .brand-main {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 800;
   line-height: 1;
   color: var(--text);
@@ -157,15 +157,15 @@ h1, h2, h3, .brand-main {
 }
 
 .course-name-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--primary);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.4rem;
 }
 
 .current-hole-info h1 {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 800;
   line-height: 1;
 }
@@ -614,11 +614,11 @@ h1, h2, h3, .brand-main {
   }
 
   .current-hole-info h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 
   .course-name-badge {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
   }
 
   .side-panels {
