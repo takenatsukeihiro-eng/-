@@ -15,7 +15,7 @@
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1e4d2b">
     <link rel="apple-touch-icon" href="./pwa-512x512.png">
-    <script type="module" crossorigin src="./assets/index-CeknO-oj.js"></script>
+    <script type="module" crossorigin src="./assets/index-DMdATN1h.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DEaVkCqG.css">
   </head>
   <body>
@@ -37,12 +37,22 @@
           </ul>
         </nav>
         <div class="sidebar-footer">
-          <button id="print-out" class="btn-secondary full-width">
-            <i data-lucide="printer"></i> OUT (1-9) 印刷
-          </button>
-          <button id="print-in" class="btn-secondary full-width" style="margin-top: 0.5rem;">
-            <i data-lucide="printer"></i> IN (10-18) 印刷
-          </button>
+          <div class="print-actions">
+            <button id="print-out" class="btn-secondary full-width">
+              <i data-lucide="printer"></i> OUT (1-9) 印刷 / PDF
+            </button>
+            <button id="print-in" class="btn-secondary full-width" style="margin-top: 0.5rem;">
+              <i data-lucide="printer"></i> IN (10-18) 印刷 / PDF
+            </button>
+          </div>
+          <div class="share-actions" style="margin-top: 1rem; border-top: 1px solid #334155; padding-top: 1rem;">
+            <button id="share-line" class="btn-primary full-width" style="background-color: #06c755; border-color: #06c755;">
+              <i data-lucide="message-circle"></i> LINEで送る
+            </button>
+            <button id="copy-summary" class="btn-outline full-width" style="margin-top: 0.5rem;">
+              <i data-lucide="copy"></i> 位置テキストをコピー
+            </button>
+          </div>
           <div class="data-mgmt" style="margin-top: 1rem; display: flex; gap: 0.5rem;">
             <button id="export-data" class="btn-outline full-width" style="font-size: 0.7rem; padding: 0.4rem;">
               <i data-lucide="download" style="width: 12px; height: 12px;"></i> データ保存
@@ -53,7 +63,7 @@
             <input type="file" id="import-file" style="display: none;" accept=".json">
           </div>
           <div class="version-info" style="font-size: 0.6rem; color: #94a3b8; margin-top: 1rem; text-align: center;">
-            Version: 1.0.3 (Updated: 2026-04-25)
+            Version: 1.0.4 (Updated: 2026-04-29)
           </div>
         </div>
       </aside>
