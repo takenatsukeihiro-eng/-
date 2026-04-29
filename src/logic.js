@@ -1,11 +1,12 @@
 // ピン配置の計算ロジック
-// スケール定義: 1px = 0.2m (500px = 100m)
-const PIXELS_PER_METER = 5;
+// スケール定義: 1px = 0.1m (500px = 50m) => 1m = 10px
+const PIXELS_PER_METER = 10;
 const YARDS_TO_PIXELS = 0.9144 * PIXELS_PER_METER; // 1ヤード = 0.9144m
 
 export const CONSTRAINTS = {
   MIN_EDGE_DIST: 4 * YARDS_TO_PIXELS, // 4ヤード
   MIN_PREV_DIST: 5 * PIXELS_PER_METER,  // 5メートル
+  MIN_SLOPE_DIST: 3 * PIXELS_PER_METER, // 傾斜から3メートル
 };
 
 // 指定した点が多角形内にあるか判定 (Ray-casting algorithm)
@@ -21,14 +22,25 @@ export function isPointInPolygon(point, polygon) {
   return inside;
 }
 
-// 点からエッジまでの最短距離を計算
+// 点からポリゴンエッジまでの最短距離を計算
 export function getMinDistanceToEdge(point, polygon) {
-  let minPrevDist = Infinity;
+  let minDist = Infinity;
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
     const d = distToSegment(point, polygon[i], polygon[j]);
-    if (d < minPrevDist) minPrevDist = d;
+    if (d < minDist) minDist = d;
   }
-  return minPrevDist;
+  return minDist;
+}
+
+// 点からポリライン（連続線）までの最短距離を計算
+export function getMinDistanceToPolyline(point, polyline) {
+  if (!polyline || polyline.length < 2) return Infinity;
+  let minDist = Infinity;
+  for (let i = 0; i < polyline.length - 1; i++) {
+    const d = distToSegment(point, polyline[i], polyline[i+1]);
+    if (d < minDist) minDist = d;
+  }
+  return minDist;
 }
 
 function distToSegment(p, v, w) {
@@ -49,6 +61,7 @@ export function distBetween(p1, p2) {
 // 新しいピンポジションを生成
 export function generateValidPin(hole, previousPin = null) {
   const points = hole.points;
+  const slopeLines = hole.slopeLines; // {A: [], B: []} のような構造から渡された該当グリーンのslopeLines
   
   // バウンディングボックスの取得
   const minX = Math.min(...points.map(p => p.x));
@@ -70,13 +83,17 @@ export function generateValidPin(hole, previousPin = null) {
       // 条件2: エッジから4ヤード以上
       const edgeDist = getMinDistanceToEdge(testPoint, points);
       if (edgeDist >= CONSTRAINTS.MIN_EDGE_DIST) {
-        // 条件3: 前日位置から5m以上（指定があれば）
-        if (!previousPin || distBetween(testPoint, previousPin) >= CONSTRAINTS.MIN_PREV_DIST) {
-          return {
-            ...testPoint,
-            edgeDist: (edgeDist / PIXELS_PER_METER).toFixed(1),
-            prevDist: previousPin ? (distBetween(testPoint, previousPin) / PIXELS_PER_METER).toFixed(1) : null
-          };
+        // 条件3: 傾斜エリア（あれば）から3m以上離れていること
+        const slopeDist = getMinDistanceToPolyline(testPoint, slopeLines);
+        if (slopeDist >= CONSTRAINTS.MIN_SLOPE_DIST) {
+          // 条件4: 前日位置から5m以上（指定があれば）
+          if (!previousPin || distBetween(testPoint, previousPin) >= CONSTRAINTS.MIN_PREV_DIST) {
+            return {
+              ...testPoint,
+              edgeDist: (edgeDist / PIXELS_PER_METER).toFixed(1),
+              prevDist: previousPin ? (distBetween(testPoint, previousPin) / PIXELS_PER_METER).toFixed(1) : null
+            };
+          }
         }
       }
     }

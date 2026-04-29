@@ -129,8 +129,68 @@ function renderMap() {
     `;
   }
 
+  // Bounding box for dimensions
+  let minX = 500, maxX = 0, minY = 500, maxY = 0;
+  points.forEach(p => {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.y > maxY) maxY = p.y;
+  });
+  
+  // 10px = 1m = 1.09361 yards
+  const widthYards = ((maxX - minX) / 10 * 1.09361).toFixed(1);
+  const heightYards = ((maxY - minY) / 10 * 1.09361).toFixed(1);
+
+  // グリッド線の生成 (中心250から50px間隔 = 5m間隔)
+  let gridSvg = '<g class="svg-grid" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4" pointer-events="none">';
+  for (let i = 0; i <= 500; i += 50) {
+    // センターラインは少し目立たせる
+    const strokeWidth = (i === 250) ? 1.5 : 1;
+    const strokeColor = (i === 250) ? '#94a3b8' : '#cbd5e1';
+    const dash = (i === 250) ? 'none' : '4,4';
+    gridSvg += `<line x1="${i}" y1="-500" x2="${i}" y2="1000" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-dasharray="${dash}" />`;
+    gridSvg += `<line x1="-500" y1="${i}" x2="1000" y2="${i}" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-dasharray="${dash}" />`;
+  }
+  gridSvg += '</g>';
+
+  // 寸法線の生成
+  // 横幅（下部に表示）
+  const dimY = maxY + 25;
+  const dimX = minX - 25;
+  const dimensionSvg = `
+    <g class="dimensions" stroke="#64748b" fill="#64748b" font-family="'Inter', sans-serif" font-size="12" pointer-events="none">
+      <!-- 横幅 -->
+      <line x1="${minX}" y1="${dimY}" x2="${maxX}" y2="${dimY}" stroke-width="1" />
+      <line x1="${minX}" y1="${dimY - 5}" x2="${minX}" y2="${dimY + 5}" stroke-width="1" />
+      <line x1="${maxX}" y1="${dimY - 5}" x2="${maxX}" y2="${dimY + 5}" stroke-width="1" />
+      <text x="${(minX + maxX) / 2}" y="${dimY + 15}" text-anchor="middle" font-weight="600" stroke="none">${widthYards} Y</text>
+      
+      <!-- 縦幅 -->
+      <line x1="${dimX}" y1="${minY}" x2="${dimX}" y2="${maxY}" stroke-width="1" />
+      <line x1="${dimX - 5}" y1="${minY}" x2="${dimX + 5}" y2="${minY}" stroke-width="1" />
+      <line x1="${dimX - 5}" y1="${maxY}" x2="${dimX + 5}" y2="${maxY}" stroke-width="1" />
+      <text x="${dimX - 10}" y="${(minY + maxY) / 2}" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90, ${dimX - 10}, ${(minY + maxY) / 2})" font-weight="600" stroke="none">${heightYards} Y</text>
+    </g>
+  `;
+
+  let slopeSvg = '';
+  const currentSlopeLines = currentGreenType === 'A' ? currentHole.slopeLinesA : currentHole.slopeLinesB;
+  if (currentSlopeLines) {
+    const polylinePoints = currentSlopeLines.map(p => `${p.x},${p.y}`).join(' ');
+    // 傾斜をハッチングのように表現するための破線
+    slopeSvg = `<polyline points="${polylinePoints}" fill="none" stroke="#000000" stroke-width="3" stroke-dasharray="6,4" opacity="0.3" style="pointer-events: none;" />`;
+  }
+
+  // Bounding box for viewBox
+  const pad = 45;
+  const vbX = minX - pad;
+  const vbY = minY - pad;
+  const vbW = (maxX - minX) + pad * 2;
+  const vbH = (maxY - minY) + pad * 2;
+
   mapContainerEl.innerHTML = `
-    <svg id="green-svg" viewBox="0 0 500 500" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="touch-action: none;">
+    <svg id="green-svg" viewBox="${vbX} ${vbY} ${vbW} ${vbH}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="touch-action: none;">
       <defs>
         <radialGradient id="greenGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
           <stop offset="0%" style="stop-color:#a7f3d0;stop-opacity:1" />
@@ -138,7 +198,10 @@ function renderMap() {
         </radialGradient>
       </defs>
       <polygon id="green-poly" points="${polygonPoints}" fill="url(#greenGradient)" class="green-boundary" stroke="#064e3b" stroke-width="2" style="cursor: crosshair;" />
-      <text x="20" y="45" font-size="32" font-weight="900" fill="rgba(6, 78, 59, 0.2)" style="pointer-events: none; font-family: 'Outfit', sans-serif;">${currentGreenType}G</text>
+      ${slopeSvg}
+      ${gridSvg}
+      ${dimensionSvg}
+      <text x="${vbX + 15}" y="${vbY + 35}" font-size="${vbW * 0.08}" font-weight="900" fill="rgba(6, 78, 59, 0.2)" style="pointer-events: none; font-family: 'Outfit', sans-serif;">${currentGreenType}G</text>
       ${historySvg}
       ${pinSvg}
     </svg>
@@ -157,12 +220,11 @@ function attachMapListeners() {
   const getCoords = (e) => {
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
     const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-    const rect = svg.getBoundingClientRect();
-    const scale = 500 / rect.width;
-    return {
-      x: (clientX - rect.left) * scale,
-      y: (clientY - rect.top) * scale
-    };
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return { x: svgP.x, y: svgP.y };
   };
 
   const updatePin = (e) => {
@@ -245,8 +307,12 @@ generateBtn.onclick = () => {
   const prevPinData = getPinPosition(currentHole.number, yesterday);
   const prevPin = (prevPinData && prevPinData.greenType === currentGreenType) ? prevPinData.position : null;
   
-  // 現在のグリーン座標を使用
-  const currentHoleWithPoints = { ...currentHole, points: getCurrentGreenPoints(currentHole, currentGreenType) };
+  // 現在のグリーン座標と傾斜を使用
+  const currentHoleWithPoints = { 
+    ...currentHole, 
+    points: getCurrentGreenPoints(currentHole, currentGreenType),
+    slopeLines: currentGreenType === 'A' ? currentHole.slopeLinesA : currentHole.slopeLinesB
+  };
   const newPin = generateValidPin(currentHoleWithPoints, prevPin);
   
   if (newPin) {
