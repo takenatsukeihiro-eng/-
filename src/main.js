@@ -456,6 +456,47 @@ const importFile = document.getElementById('import-file');
 
 importBtn.onclick = () => importFile.click();
 
+// 共有用テキスト生成
+function generateSummaryText() {
+  const dateStr = selectedDate.replace(/-/g, '/');
+  let text = `【勝浦東急GC ピンポジション】\n${dateStr}\n\n`;
+  
+  HOLE_DATA.forEach(hole => {
+    const pinData = getPinPosition(hole.number, selectedDate);
+    if (pinData) {
+      const { greenType, position: pin } = pinData;
+      const relY = Math.round(250 - pin.y);
+      const relX = Math.round(pin.x - 250);
+      const yStr = relY > 0 ? `+${relY}` : relY;
+      const xStr = relX > 0 ? `+${relX}` : relX;
+      text += `${hole.number}H: ${greenType}G 手奥${yStr} / 左右${xStr}\n`;
+    } else {
+      text += `${hole.number}H: 未設定\n`;
+    }
+    if (hole.number === 9) text += '---\n';
+  });
+  
+  return text;
+}
+
+// LINE共有
+document.getElementById('share-line').onclick = () => {
+  const text = generateSummaryText();
+  const url = `https://line.me/R/msg/text/?${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+};
+
+// テキストコピー
+document.getElementById('copy-summary').onclick = () => {
+  const text = generateSummaryText();
+  navigator.clipboard.writeText(text).then(() => {
+    alert('ピンポジション一覧をクリップボードにコピーしました。LINEやメールに貼り付けて共有してください。');
+  }).catch(err => {
+    console.error('Copy failed', err);
+    alert('コピーに失敗しました。');
+  });
+};
+
 importFile.onchange = (e) => {
   const file = e.target.files[0];
   if (!file) return;
